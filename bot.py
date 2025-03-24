@@ -8,7 +8,7 @@ import config
 bot = Bot(token=config.BOT_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
 
-commands = ["/start", "/info", "/greet"]
+commands = ["/start", "/info", "/greet", "cосал?"]
 
 WEBHOOK_URL = config.WEBHOOK_URL
 app = FastAPI()
@@ -29,6 +29,10 @@ async def send_welcome_with_name(message: Message):
     else:
         await message.answer("Привет, незнакомец!")
 
+@dp.message(F.text.startswith(commands[3]).lower())
+async def command_sosal(message: Message):
+    await message.answer("Да.")
+    
 @dp.message()
 async def udefaind_command(message: Message):
     if not any(command in message.text for command in commands):
