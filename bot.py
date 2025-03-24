@@ -8,7 +8,7 @@ import config
 bot = Bot(token=config.BOT_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
 
-commands = ["/start", "/info", "/greet", "cосал"]
+commands = ["/start", "/info", "/greet", "сосал"]
 
 WEBHOOK_URL = config.WEBHOOK_URL
 app = FastAPI()
