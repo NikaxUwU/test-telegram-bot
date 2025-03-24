@@ -8,20 +8,20 @@ import config
 bot = Bot(token=config.BOT_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
 
-command = ["/start", "/info", "/greet"]
+commands = ["/start", "/info", "/greet"]
 
 WEBHOOK_URL = config.WEBHOOK_URL
 app = FastAPI()
 
-@dp.message(F.text == command[0])
+@dp.message(F.text == commands[0])
 async def send_welcome(message: Message):
     await message.answer("Привет!")
 
-@dp.message(F.text == command[1])
+@dp.message(F.text == commands[1])
 async def send_info(message: Message):
     await message.answer("Я Telegram-бот!")
 
-@dp.message(F.text.startswith(command[2]))
+@dp.message(F.text.startswith(commands[2]))
 async def send_welcome_with_name(message: Message):
     parts = message.text.split(maxsplit=1)
     if len(parts) > 1:
@@ -29,10 +29,11 @@ async def send_welcome_with_name(message: Message):
     else:
         await message.answer("Привет, незнакомец!")
 
-@dp.message(F.text not in command)
+@dp.message()
 async def udefaind_command(message: Message):
-    await message.answer("Извини, мне неизвестна данная команда.")
-    await message.answer("Попробуй ещё раз!")
+    if not any(command in message.text for command in commands):
+        await message.answer("Извини, мне неизвестна данная команда.")
+        await message.answer("Попробуй ещё раз!")
 
 @app.post("/webhook")
 async def webhook(request: Request):
