@@ -41,13 +41,16 @@ async def udefaind_command(message: Message):
 
 @dp.message(F.text == commands[4])
 async def Pure_Vanila(message: Message):
+    print(f"Получено сообщение: {message.text}")
     await message.answer("Мастер, у вас оппонент играет в морской бой шахматами!")
     await message.answer("ВХАХВХАХАВ, Я ЗНАЮ, ДАЙ ЕМУ СХОДИТЬ, ВДРУГ ТАМ ЧЕТЫРЁХПАЛУБНИК АХВХААВХВЫВАХЫМ")
 
 @app.post("/webhook")
 async def webhook(request: Request):
     update = await request.json()
+    print(f"Получено обновление: {update}")
     telegram_update = Update(**update)
+    print(f"Текст сообщения: {telegram_update.message.text}")
     await dp.feed_update(bot, telegram_update)
 
 async def on_startup():
