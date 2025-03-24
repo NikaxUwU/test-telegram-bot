@@ -8,7 +8,7 @@ import config
 bot = Bot(token=config.BOT_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
 
-commands = ["/start", "/info", "/greet", "сосал"]
+commands = ["/start", "/info", "/greet", "сосал", "D10"]
 
 WEBHOOK_URL = config.WEBHOOK_URL
 app = FastAPI()
@@ -29,7 +29,7 @@ async def send_welcome_with_name(message: Message):
     else:
         await message.answer("Привет, незнакомец!")
 
-@dp.message(F.text.startswith(commands[3]))
+@dp.message(F.text.lower().startswith(commands[3].lower()))
 async def command_sosal(message: Message):
     await message.answer("Да.")
 
@@ -38,6 +38,11 @@ async def udefaind_command(message: Message):
     if not any(command in message.text for command in commands):
         await message.answer("Извини, мне неизвестна данная команда.")
         await message.answer("Попробуй ещё раз!")
+
+@dp.message(F.text == commands[4])
+async def Pure_Vanila(message: Message):
+    await message.answer("Мастер, у вас оппонент играет в морской бой шахматами!")
+    await message.answer("ВХАХВХАХАВ, Я ЗНАЮ, ДАЙ ЕМУ СХОДИТЬ, ВДРУГ ТАМ ЧЕТЫРЁХПАЛУБНИК АХВХААВХВЫВАХЫМ")
 
 @app.post("/webhook")
 async def webhook(request: Request):
