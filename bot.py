@@ -1,11 +1,13 @@
 import asyncio
 from aiogram import Bot, Dispatcher, types
-from aiogram.types import Message
+from aiogram.types import Message, Update
+from fastapi import FastAPI
 import config
 
 bot = Bot(token=config.BOT_TOKEN)
 dp = Dispatcher()
-print(config.WEBHOOK_URL)
+WEBHOOK_URL = config.WEBHOOK_URL
+app = FastAPI()
 
 @dp.message(lambda message: message.text == "/start")
 async def send_welcome(message: Message):
@@ -26,5 +28,18 @@ async  def send_welcome_with_name(message: Message):
 async def main():
     await dp.start_polling(bot)
 
+@app.post("/webhook")
+async def webhook(update: dict):
+    telegram_update = Update(**update)
+    await dp.feed_update(bot, telegram_update)  
+
+async def on_startup():
+    await bot.set_webhook(WEBHOOK_URL)
+
+async def on_shutdown():
+    await bot.delete_webhook()
+
 if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
     asyncio.run(main())
