@@ -31,7 +31,7 @@ async def main():
 @app.post("/webhook")
 async def webhook(update: dict):
     telegram_update = Update(**update)
-    await dp.feed_update(bot, telegram_update)  
+    await dp.feed_update(bot, telegram_update)
 
 async def on_startup():
     await bot.set_webhook(WEBHOOK_URL)
