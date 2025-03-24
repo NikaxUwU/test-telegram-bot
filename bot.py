@@ -39,7 +39,7 @@ async def udefaind_command(message: Message):
         await message.answer("Извини, мне неизвестна данная команда.")
         await message.answer("Попробуй ещё раз!")
 
-@dp.message(F.text == commands[4] or F.text == "D10")
+@dp.message(F.text.strip().lower() == "d10")
 async def Pure_Vanila(message: Message):
     print(f"Получено сообщение: {message.text}")
     await message.answer("Мастер, у вас оппонент играет в морской бой шахматами!")
