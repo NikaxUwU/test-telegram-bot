@@ -29,7 +29,7 @@ async def send_welcome_with_name(message: Message):
     else:
         await message.answer("Привет, незнакомец!")
 
-@dp.message(F.text.startswith(commands[3]).lower())
+@dp.message(F.text.startswith(commands[3].lower()))
 async def command_sosal(message: Message):
     await message.answer("Да.")
 
